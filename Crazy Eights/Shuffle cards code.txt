@@ -1,0 +1,48 @@
+code....
+
+
+
+
+    For intCounter = 0 To 51
+        intDeckOrder(intCounter) = -1
+    Next intCounter
+    For intCounter = 0 To 51
+        Randomize
+        intRandomSpot = Int((52 - intCounter) * Rnd)
+        intCounter1 = 0
+        Do
+            If intRandomSpot = 0 And intDeckOrder(intCounter1) = -1 Then
+                intDeckOrder(intCounter1) = intCounter
+                Exit Do
+            ElseIf Not intDeckOrder(intCounter1) = -1 Then
+                intCounter1 = intCounter1 + 1
+            ElseIf intRandomSpot > 0 And intDeckOrder(intCounter1) = -1 Then
+                intRandomSpot = intRandomSpot - 1
+                intCounter1 = intCounter1 + 1
+            End If
+        Loop
+    Next intCounter
+    
+    For intCounter = 0 To 51
+        intPlayerHand(intCounter) = -1
+        intCompHand(intCounter) = -1
+    Next intCounter
+    For intCounter = 0 To 9
+        If intCounter Mod 2 = 1 Then
+            For intCounter1 = 0 To 51
+                If intPlayerHand(intCounter1) = -1 Then
+                    intPlayerHand(intCounter1) = intDeckOrder(intCounter)
+                    intDeckOrder(intCounter) = -1
+                End If
+            Next intCounter1
+        Else
+            For intCounter1 = 0 To 51
+                If intCompHand(intCounter1) = -1 Then
+                    intCompHand(intCounter1) = intDeckOrder(intCounter)
+                    intDeckOrder(intCounter) = -1
+                End If
+            Next intCounter1
+        End If
+    Next intCounter
+    intInPlay = intDeckOrder(10)
+    intDeckOrder(10) = -1
