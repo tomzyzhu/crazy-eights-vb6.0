@@ -39,7 +39,7 @@ Begin VB.Form frmTomZhuCrazyEights_Start
    End
    Begin VB.CommandButton cmdClose 
       BackColor       =   &H0000FFFF&
-      Caption         =   "Close"
+      Caption         =   "Close Game"
       Height          =   495
       Left            =   1680
       MaskColor       =   &H00FF8080&
@@ -67,38 +67,38 @@ Begin VB.Form frmTomZhuCrazyEights_Start
       BackColor       =   &H00FFFFFF&
       Caption         =   "Eights"
       BeginProperty Font 
-         Name            =   "Freestyle Script"
-         Size            =   36
+         Name            =   "Segoe Script"
+         Size            =   18
          Charset         =   0
-         Weight          =   700
+         Weight          =   400
          Underline       =   0   'False
-         Italic          =   0   'False
+         Italic          =   -1  'True
          Strikethrough   =   0   'False
       EndProperty
-      Height          =   870
+      Height          =   570
       Left            =   3240
       TabIndex        =   4
       Top             =   240
-      Width           =   1260
+      Width           =   1185
    End
    Begin VB.Label lblIntro1 
       AutoSize        =   -1  'True
       BackColor       =   &H00FFFFFF&
       Caption         =   "Crazy"
       BeginProperty Font 
-         Name            =   "Freestyle Script"
-         Size            =   36
+         Name            =   "Segoe Script"
+         Size            =   18
          Charset         =   0
-         Weight          =   700
+         Weight          =   400
          Underline       =   0   'False
-         Italic          =   0   'False
+         Italic          =   -1  'True
          Strikethrough   =   0   'False
       EndProperty
-      Height          =   870
+      Height          =   570
       Left            =   240
       TabIndex        =   3
       Top             =   240
-      Width           =   1200
+      Width           =   1125
    End
    Begin VB.Image imgAnimation 
       Height          =   495
@@ -113,7 +113,7 @@ Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
 Private Sub cmdClose_Click()
-    Unload Me
+    End
 End Sub
 
 Private Sub cmdInstructions_Click()

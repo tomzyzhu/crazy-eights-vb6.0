@@ -170,7 +170,7 @@ Public Function PDraw() 'Draws a card for the Player
     
     If DeckNum = 0 Then 'creates a new shuffled deck if there is no more cards in the deck
         Shuffle
-        MsgBox ("The deck has been reset and re-shuffled due no more cards left in the deck")
+        MsgBox ("Since there are no more cards, a new deck has been created for you and the computer to draw from")
     End If
     
     For intDrawCounter = 0 To 51 'loop to check where to put the newly drawn card
@@ -249,7 +249,7 @@ Public Function DeckNum() As Integer 'Counts the amount of cards left in the dec
 End Function
 
 
-Public Function Clean() 'Re-organizes all array values
+Public Function Clean() 'Re-organizes all array values to behave more like a list (translates all values right of a value of -1 [ie. established null val] to the left, creating more of a list property in the hand arrays)
     Dim intCleanCounter As Integer
     Dim intCleanCounter2 As Integer
     
@@ -280,7 +280,6 @@ Public Function Clean() 'Re-organizes all array values
 End Function
 
 Public Function Shuffle() 'creates a new deck to draw from
-
     For intCounter = 0 To 51 'initialize deck for shuffling
         intDeckOrder(intCounter) = -1
     Next intCounter

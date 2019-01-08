@@ -17,19 +17,8 @@ Begin VB.Form frmTomZhuCrazyEights_Game
       Left            =   120
       MaskColor       =   &H000000FF&
       Style           =   1  'Graphical
-      TabIndex        =   7
+      TabIndex        =   6
       Top             =   120
-      Width           =   1215
-   End
-   Begin VB.CommandButton cmdInformation 
-      BackColor       =   &H000000FF&
-      Caption         =   "Information"
-      Height          =   495
-      Left            =   6360
-      MaskColor       =   &H000000FF&
-      Style           =   1  'Graphical
-      TabIndex        =   4
-      Top             =   2400
       Width           =   1215
    End
    Begin VB.Timer tmrAnimation 
@@ -70,6 +59,25 @@ Begin VB.Form frmTomZhuCrazyEights_Game
       Top             =   840
       Width           =   1215
    End
+   Begin VB.Label lblInfo 
+      Alignment       =   2  'Center
+      BackColor       =   &H0000C000&
+      Caption         =   "Hint : A black arrows means you can play the card under the arrow, a red arrows mean you've selected the card under the arrow"
+      BeginProperty Font 
+         Name            =   "MS Sans Serif"
+         Size            =   8.25
+         Charset         =   0
+         Weight          =   700
+         Underline       =   0   'False
+         Italic          =   0   'False
+         Strikethrough   =   0   'False
+      EndProperty
+      Height          =   615
+      Left            =   6360
+      TabIndex        =   10
+      Top             =   2400
+      Width           =   3855
+   End
    Begin VB.Label lblHint3 
       Alignment       =   2  'Center
       BackColor       =   &H0000C000&
@@ -85,7 +93,7 @@ Begin VB.Form frmTomZhuCrazyEights_Game
       EndProperty
       Height          =   615
       Left            =   0
-      TabIndex        =   10
+      TabIndex        =   9
       Top             =   840
       Width           =   1815
    End
@@ -104,7 +112,7 @@ Begin VB.Form frmTomZhuCrazyEights_Game
       EndProperty
       Height          =   375
       Left            =   120
-      TabIndex        =   9
+      TabIndex        =   8
       Top             =   2400
       Width           =   1935
    End
@@ -123,7 +131,7 @@ Begin VB.Form frmTomZhuCrazyEights_Game
       EndProperty
       Height          =   615
       Left            =   6360
-      TabIndex        =   8
+      TabIndex        =   7
       Top             =   960
       Width           =   3855
    End
@@ -141,7 +149,7 @@ Begin VB.Form frmTomZhuCrazyEights_Game
       EndProperty
       Height          =   495
       Left            =   4920
-      TabIndex        =   6
+      TabIndex        =   5
       Top             =   120
       Width           =   1215
    End
@@ -159,7 +167,7 @@ Begin VB.Form frmTomZhuCrazyEights_Game
       EndProperty
       Height          =   495
       Left            =   3480
-      TabIndex        =   5
+      TabIndex        =   4
       Top             =   120
       Width           =   855
    End
@@ -407,14 +415,23 @@ Attribute VB_Exposed = False
 'Output: Display information to user
 'Goal: Get rid of all the cards in users hand before the computer
 
-Public Function CPU() 'The function that allows the computer to interact and checks if someone won ie. the computers turn
+Public Function CPU() 'The function that allows the computer to interact
+    'also used to check if someone has won yet
     If Check <> -1 Then
         
         MsgBox ("The computer plays " & Card(Check))
-        If Check \ 4 = 7 Then 'if the computer randomly chooses to use a wild card
+        If Check \ 4 = 7 Then 'if the computer used a wild card (some 8 value), decide randomly which suit to set it to
             Randomize
-            MsgBox ("Since the computer plays a 8, it gets to select the suit now")
             intInPlay = Int(4 * Rnd + 1) * 100
+            If intInPlay = 100 Then
+                MsgBox ("Since the computer plays a 8, it has chosen that the next suit must be a diamond")
+            ElseIf intInPlay = 200 Then
+                MsgBox ("Since the computer plays a 8, it has chosen that the next suit must be a clubs")
+            ElseIf intInPlay = 300 Then
+                MsgBox ("Since the computer plays a 8, it has chosen that the next suit must be a hearts")
+            ElseIf intInPlay = 400 Then
+                MsgBox ("Since the computer plays a 8, it has chosen that the next suit must be a spades")
+            End If
         Else
             intInPlay = Check
             If intInPlay \ 4 = 1 Then 'if the computer plays a 2, the player must draw 2 cards
@@ -433,16 +450,16 @@ Public Function CPU() 'The function that allows the computer to interact and che
     
     If PlayerNum = 0 Then 'determine if anyone has won and closes the program if someone has won
         MsgBox ("Congratulations, you won!!!")
-        Unload Me
+        End
     ElseIf CompNum = 0 Then
         MsgBox ("You have lost, sorry...")
-        Unload Me
+        End
     End If
     
 End Function
 
-Private Function Render() 'Sets all picture values if the animation doesnt set it ie.backplanB
-    'details aren't specific since most of the time, the animation renders the images just fine
+Private Function Render() 'Resets animations
+    'failsafe incase animation function messed up somewhere
     Dim intRenderCounter 'Set a local counter for any use in the function
     
     Clean 'Just in case any arrays are not in the right order
@@ -485,7 +502,7 @@ Private Function Render() 'Sets all picture values if the animation doesnt set i
 End Function
 
 Private Sub cmdClose_Click()
-    Unload Me 'close program if user wants to exit
+    End 'close program if user wants to exit
 End Sub
 
 Private Sub cmdDraw_Click()
@@ -510,18 +527,18 @@ Private Sub cmdPlay_Click() 'Determines if the player can play a certain card
             
             Do 'gets suit input
                 strSuit = InputBox("Please change the suit of either `Diamonds`, `Clubs`, `Hearts`, or `Spades`")
-                If strSuit = "Diamonds" Or strSuit = "Clubs" Or strSuit = "Hearts" Or strSuit = "Spades" Then
+                strSuit = UCase(strSuit) 'remove case sensitivity
+                If strSuit = "DIAMONDS" Or strSuit = "CLUBS" Or strSuit = "HEARTS" Or strSuit = "SPADES" Then
                     Exit Do
                 End If
             Loop
-            
-            If strSuit = "Diamonds" Then
+            If strSuit = "DIAMONDS" Then
                 intInPlay = 100
-            ElseIf strSuit = "Clubs" Then
+            ElseIf strSuit = "CLUBS" Then
                 intInPlay = 200
-            ElseIf strSuit = "Hearts" Then
+            ElseIf strSuit = "HEARTS" Then
                 intInPlay = 300
-            ElseIf strSuit = "Spades" Then
+            ElseIf strSuit = "SPADES" Then
                 intInPlay = 400
             End If
             
@@ -534,16 +551,17 @@ Private Sub cmdPlay_Click() 'Determines if the player can play a certain card
             intInPlay = intPlayerHand(intCardPlay) 'Sets the value the inplay card if there are no special effects
         End If
         
-        MsgBox ("Your card has been succesfully played")
+        MsgBox ("Your card, " + Card(intPlayerHand(intCardPlay)) + ", has been succesfully played")
         intPlayerHand(intCardPlay) = -1 'resets hand values and the card to play value
         intCardPlay = -1
         
+        'if the player or the computer have no cards, let the player know who won, and end program
         If PlayerNum = 0 Then 'determine if anyone has won and closes the program if someone has won
             MsgBox ("Congratulations, you won!!!")
-            Unload Me
+            End
         ElseIf CompNum = 0 Then
             MsgBox ("You have lost, sorry...")
-            Unload Me
+            End
         Else
             CPU
         End If
@@ -607,7 +625,15 @@ Private Sub tmrAnimation_Timer() 'animates arrows up and down as well as being r
         imgPlayerHand(intAnimationCounter2).Visible = False
     Next intAnimationCounter2
     
-    For intAnimationCounter2 = 0 To PlayerNum - 1 'updates only the image boxes that have a card to display their card
+    Dim intOverFlowBarrier
+    intOverFlowBarrier = PlayerNum
+    
+    If intOverFlowBarrier > 14 Then 'placeholder so program doesn't crash if there is more than 14 cards in hand
+        intOverFlowBarrier = 14
+    End If
+    
+    For intAnimationCounter2 = 0 To intOverFlowBarrier - 1 'updates only the image boxes that have a card to display their card
+        
         imgPlayerHand(intAnimationCounter2).Picture = LoadPicture(LoadCard(intPlayerHand(intAnimationCounter2)))
         imgPlayerHand(intAnimationCounter2).Visible = True
     Next intAnimationCounter2
@@ -636,4 +662,6 @@ Private Sub tmrAnimation_Timer() 'animates arrows up and down as well as being r
         intAnimationCounter = 0
     End If
     
+    'Update information for the Player
+    lblInfo.Caption = "The Computer has " & CompNum & " cards in their hand, you have " & PlayerNum & " cards in hand, and there are " & DeckNum & " cards in the deck"
 End Sub

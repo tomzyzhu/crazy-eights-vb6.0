@@ -11,7 +11,7 @@ Begin VB.Form frmTomZhuCrazyEights_Instructions
    StartUpPosition =   3  'Windows Default
    Begin VB.CommandButton cmdClose 
       BackColor       =   &H000080FF&
-      Caption         =   "Close"
+      Caption         =   "Close Instructions"
       Height          =   735
       Left            =   480
       MaskColor       =   &H000080FF&
