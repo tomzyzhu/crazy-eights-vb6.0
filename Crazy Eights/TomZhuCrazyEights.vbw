@@ -1,4 +1,4 @@
 frmTomZhuCrazyEights_Start = 33, 48, 746, 487, C, 26, 26, 739, 468, C
 frmTomZhuCrazyEights_Instructions = 71, 14, 945, 456, C, 342, 40, 1370, 616, C
-frmTomZhuCrazyEights_Game = 221, 242, 1192, 730, , 50, -10, 855, 640, C
+frmTomZhuCrazyEights_Game = 222, 242, 1192, 730, , 50, -10, 855, 640, C
 mdlComputations = 26, 26, 714, 468, 
